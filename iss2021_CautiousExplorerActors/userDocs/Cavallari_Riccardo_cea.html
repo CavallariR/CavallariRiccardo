@@ -1,0 +1,525 @@
+	<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01//EN" "http://www.w3.org/TR/html4/strict.dtd">
+<html>
+    <!--
+<link rel="stylesheet" type="text/css" href="../css/issStyle1.css">
+<script type="text/javascript" src="../css/issStyle.js"></script>
+-->
+<style type="text/css">
+body
+{
+    margin-left:  30px;
+    margin-right: 30px;
+};
+
+P
+{
+    font-family: Tahoma;
+    font-size: 10pt;
+};
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+	font-size: 93%;
+}
+
+a:hover {
+    background-color: #cccccc;
+}
+
+
+hr {
+    clear: both;
+    height: 1px;
+    color: #242424;
+    background-color: transparent;
+}
+
+h1, h2, h3 {
+    color: #242424;
+    clear: left;
+    font: 100% Tahoma, Helvetica, Arial, sans-serif;
+    margin-bottom: 0.5em;
+    padding-top: 0.5em;
+	border-radius: 10px;
+	padding: 5px;
+}
+
+top {
+	width: 100%;
+}
+
+
+#i {
+    color: #ff1010;
+}
+tt{
+	font-family: "Arial";
+    font-size: 90%;
+	color: #006600;
+}
+em{
+	font-family: "Arial";
+    font-size: 80%;
+	font-weight: bold;
+	border-style:solid;
+	border-color: #abe876;
+    color: #1632cc;
+}
+bc{
+	font-family: "Arial";
+	font-size: 90%;
+	font-weight: bold;
+    color: #990000;
+	background-color: #fcf8c7;
+}
+ks{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #0000CD	;
+	font-size: 90%;
+}
+kc{
+	font-family: "Arial";
+	font-weight: bold;
+    color: #008000	;
+	font-size: 90%;
+}
+pre{
+	font-family: "Consolas";
+	font-size: 85%;
+	background-color: #f5f5f5;
+	border: 1.5px solid silver;
+	padding: 5px;
+}
+m{
+	font-family: "Helvetica";
+	line-height: 100%;
+ 	font-size: 75%;
+}
+div.body{
+	 
+    font-size: 18px;
+}
+k{
+    color: #990000;
+	font-weight: bold;
+	font-size: 90%;
+}
+h1 {
+    font-size: 150%;
+    background-color: #b2c0ff;
+	padding: 10px;
+}
+
+h2 {
+    background-color: #9ed8ff;
+    font-size: 130%;
+}
+
+h3 {
+	background-color: #e6ccff;
+    font-size: 100%;
+}
+h4 {
+    background-color: #ccffcc;
+    font-size: 100%;
+	width: 95%;
+	border-radius: 5px;
+	padding: 2px;
+}
+h5 {
+    background-color: #d5ffb0;
+    font-size: 100%;
+
+}
+div.req{
+	background-color: #d9ffb3;
+    font-size: 18px;
+	width: 700px;
+    border: 3px solid green;
+    padding: 15px;
+    margin: 10px;
+}
+div.remark{
+	background-color: #E3F2FD;
+    border: 1.5px solid #d5f2ed;
+    padding: 15px;
+    margin: 10px;
+	border-radius: 25px;
+}
+table, th, td {
+  border: 1px solid black;
+  border-collapse: collapse;
+}
+
+ol, ul, li {
+  margin: 0;
+  margin-left: 10px;
+  padding: 0;
+  padding-bottom: 5px;
+}
+
+table, th, td {
+	border: 1px solid black;
+}
+
+img {
+	border: 1.5px solid #d5f2ed
+
+}
+
+a, a:visited, a:active, a:link, a:hover {
+    text-decoration: underline;
+    color: #545454;
+    background-color: transparent;
+}
+
+div.wrapdesc{
+	width: 90%;
+	margin: auto;
+}
+
+div.imagedesc{
+	width: 85%;
+	margin: auto;
+}
+</style>
+    
+<head>
+   
+<title>CR_CautiousExplorerActors</title></head>
+    
+<body>
+<div id="top">
+<h1>Lab ISS | the project cautiousExplorer with Actors<font size="5"></font> </h1>
+</div>  
+
+<div class="body"> 
+<h2>Introduction</h2>
+This case-study deals with the design and development of proactive/reactive software systems 
+based on the concept of Actor, as introduced in 
+<a href="../../it.unibo.supports/userDocs/wssupportAsActorJava.html" target="web">
+LabIss2021 | wshttp support with ActorBasicJava observers</a>.
+ 
+<h2>Requirements</h2>
+
+ 
+<div class="remark">
+Design and build a software system that allow the robot described in 
+<a href="https://htmlpreview.github.io/?https://github.com/anatali/issLab2021/blob/master/it.unibo.virtualRobot2020/userDocs/VirtualRobot2021.html" target="lab"><em>VirtualRobot2021.html</em></a>
+ to exibit the following behaviour:
+<ul>
+<li>the robot lives in a rectangular room, delimited by walls that includes one or more devices (e.g. sonar) able to detect the presence
+of obstacles, including the robot itself;</li>
+<li>the robot has a <ks>den</ks> for refuge, located in the position shown in the picture
+<center><img src="./img/cautiousExplorer.png" alt="cautiousExplorer" width="20%" ></center></li>
+<li>the robot works as an <i>explorer of the room</i>. Starting from its <ks>den</ks>,  the goal of the robot is to
+create a map of the room that records the position of the fixed obstacles. 
+The presence of mobile obstacles in the room is (at the moment) excluded;</li>
+<li>since the robot is <i>'cautious'</i>,  it  returns immediately to the <ks>den</ks> as soon as it finds an obstacle.
+It also stops for a while (e.g. 2 seconds), when it 'feels' that the sonar has detected its presence.
+</li>
+ 
+</ul>
+</div>
+
+
+<h2>Requirement analysis</h2>
+Our <b>interaction with the custom</b> ha clarified that the customer intends:
+<ul>
+<li>for <ks>robot</ks>: a device able to execute move commands sent over the network, as described in the document
+<a href="VirtualRobot2021.html#commands" target="web"><em>VirtualRobot2021.html</em></a> provided by the customer;</li> 
+<li>for <ks>room</ks>: a conventional rectangular room of an house;</li>
+<li>for <ks>devices</ks>: useful to signal the presence of the robot if within the range of action, specifically they are <ks>sonar</ks>;</li>
+<li>for <ks>sonar</ks>: (sound navigation and ranging) it is a technique that uses sound propagation to navigate, communicate with or detect objects;</li>
+<li>for <ks>den</ks>: located in the top left corner of the room, it is the starting position (also called refuge), from which the robot moves in search of obstacles and to which it returns when it finds one or optionally when a sonar detects its presence;</li>
+<li>for <ks>obstacles</ks>: They may be the walls of the environment, or fixed (for now) objects that are located within;
+<li>for <ks>explorer</ks>: in this case the robot who, for study purposes, carries out a direct recognition of unknown or little known places in the environment (the area around his <ks>den</ks>) and then makes the results known;</li>
+<li>for <ks>map</ks>: it is a simplified representation of the environment and its internal relationships, built over time by the software thanks to the information collected by the robot.</li>
+<br>
+<li>for <ks>return</ks>: the robot moves towards the den until it reaches it;</li>
+<li>for <ks>stop</ks>: the robot also stops for a while (e.g. 2 seconds), when it 'feels' that the sonar has detected its presence.</li>
+<li>for <ks>feel</ks>: the robot receives data with location and distance from the sonar.</li>
+
+The customer impose the use of the (Java) actors to develop the application.
+
+</ul> 
+<h3>The main user story</h3>
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:70%" >
+ 
+As user, I put the robot in its DEN; afterwards, I activate the <ks>cautiousExplorerActors</ks> application
+that moves the robot in search of obstacles, when it find one, the robot returns to the DEN . 
+<br/>
+The  application cannot be interrupted by any user-command until the robot come back to his DEN.
+<br/><br/>
+In any part of the trip if the robot is detected by a sonar, it stops for 2 seconds, then continues.
+When the application terminates,  the itinerary done by the robot must be that shown in the figure and with time
+a proper <ks>map</ks> of the environment with its obstacles is generated. A <em>TestPlan</em> should properly check this outcome.
+</td>
+<td><center><img src="img/cEA_TestPlan0.jpg" alt="TestPlan0" width="90%" ></center>
+</td>
+</tr>
+ </tbody>
+</table>
+</div>
+
+<h2>Problem analysis</h2>
+We highlight that:
+<ol>
+<li>In the <a href="VirtualRobot2021.html#commands" target="web">VirtualRobot2021.html: commands</a> the customer states
+that the robot can receive move commands in two different ways:
+	<ul>
+	<li>by sending messages to the port <tt>8090</tt> using  <ks>HTTP POST</ks> </li>
+	<li>by sending messages to the port <tt>8091</tt> using a <ks>websocket</ks> (it is necessary because we need the sonar data)</li>
+	</ul>
+</li>
+<li>
+The path that the robot must perform from its starting position can be predefined or can be generated randomly.
+</li>
+<li>Once an obstacle has been reached, the robot signaling must be managed and how to save the information by updating what will become the map of the environment</li>
+<li>Once the robot is detected by the sonar, it will send a dispatch and then must be stopped for 2 seconds.
+<li>
+The return to the <ks>den</ks> may possibly follow more possible routes.
+</li>
+</ol>
+
+
+<h3>Logical architecture</h3>
+ 
+
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:60%">
+We must design and build a <k>distributed system</k> with two software macro-components:
+	<ol>
+	<li>the <a href="VirtualRobot2021.html" target="web"><ks>VirtualRobot</ks></a>, given by the customer</li>
+	<li>our <ks>cautiousExplorerActors</ks> application that interacts with the robot and manages the exploration</li>
+	</ol>
+Our cautiousExplorerActors application should
+<ul>
+<li>send a <em>request</em> to WEnv for the execution of a robot-move command</li>
+<li>handle the <em>reply</em> sent by WEnv to the robot-move command request</li>
+<li>handle the information possibly sent by WEnv to cautiousExplorer as a <em>dispatch</em> carrying the distance detected by the sonar</li>
+</ul>	
+A first scheme of the logical architecture  of the systems can be defined as shown in the figure
+(for the meaning of the symbols, see the <a href="img/legenda0.png" target="web">legenda</a>)
+
+</td>
+<td>  <center><img src="img/cEA_logicArch0.png" alt="logicArch0" width="100%" ></center>
+</td>
+</tr>
+</tbody>
+</table>
+
+<br/><br/>
+We observe that:
+<ul>
+<li>The specification of the exact 'nature' of our <em>cautiousExplorer</em> software is left to the designer. 
+However, we can say here that is it <b>not a database, or a function or an object</b>.  
+<li>It is possible to define two strategies for choosing the path, the most suitable is the one in which the path is created with a specific pattern strategy (taking into account the position of the obstacles detected previously, saved in the map), but it is not excluded to have pre-defined easier paths to test the return to the <ks>den</ks> in a simplified way</li>
+<li>The map is built using the <ks>den</ks> as a reference point, memorizing the path taken by the robot to reach an obstacle, the robot can be made to move over short distances equal to its own length, which we will call <k>robot-unit</k>, thus generating a representation of the room as a rectangular table formed by cells (1 cell = 1 robot-unit) with an initial value for the cells not visited by the robot, a value for the <ks>den</ks>, one for the cells visited during a path and another for the cells in which an obstacle is found. <br>
+During the generation of the next route, the map is used to exclude cells with marked obstacles.
+</li>
+<li>The return of the robot to the <ks>den</ks> can be defined as an automatic method, which can take advantage of the path taken up to the obstacle in any situation, retracing it in the opposite direction to the refuge. Another possible return strategy is the one that  creates another road to the den (shorter than the reverse one) using the map of the room.</li>
+<li>When a sonar-data is received, the application should send to the robot an halt message to stop it for 2 seconds.
+<li>
+Let's define <k>what the robot has to do</k> to meet the requirements:
+<pre>
+let us define <kc>enum direction {UP,DOWN,LEFT,RIGHT}</kc>
+the robot start in the <ks>den</ks> position, direction = <kc>DOWN</kc>
+
+Starting from the den in the top left corner of the map, the application "knows" the top wall position, but not its extension, the same thing for the left wall.
+The pattern of the path that the robot will take is the following; with <ks>n</ks> as number of steps, initially equals to 1:
+
+<k>[</k>	
+	<k>0)</k> send to the robot the request to execute <ks>n</ks> <kc>moveForward</kc> command(s)
+	(with the right time needed for a <k>robot-unit</k> movement) the a <kc>turnLeft</kc> command,
+	only if the command doesn't send the robot in a cell signed with an obstacle (<kc>X</kc> in the example) -> <k>(1b)</k>.
+	Then continue to do it (<ks>n</ks> <kc>moveForward</kc> + <kc>turnLeft</kc>), until the answer of the request becomes 'false' (it means that the robot has reached an obstacle) -> <k>(2a)</k>
+	or the robot reaches his <ks>den</ks> -> <k>(2b)</k>.
+
+	<k>1a)</k> if the robot is detected by a sonar, a dispatch is received and the robot must be stopped for <k>2 seconds</k>.
+	
+	<k>1b)</k> if the the next cell is occupied by a discovered obstacle, the robot circumnavigates the next cell (to be designed) and resumes the pattern path.
+
+		Meanwhile save each successfull command in a "road" list and update the state of each environment map cell
+		where the robot is moving included the last cell occupied by an obstacle (if the robot is stopped by a collision).
+
+	<k>2a)</k> (only if the robot finds an obstacle) send to the robot the request to execute the opposite of the latest successfull command in the list 
+	and then all the others  until the the first command of the road,
+	in this way the robot will return to his <ks>den</ks>:
+	opposite commands: moveForward -> moveBackward | turnLeft -> turnRight | turnRight -> turnLeft
+	This is only one method to return to the robot's refuge, the second and most efficient one needs to use the map to find the shortest return path.
+	
+	After the return the app exits the cicle and stops.
+	
+	<k>2b)</k> restart from <k>(0)</k> with a new <ks>n</ks> equals to <ks>current n+1</ks>;
+<k>]</k>
+	
+</pre>
+</li>
+
+</ul>
+
+
+<h2>Test plans</h2> 
+<div class="remark">
+To check that the application fulfills the main requirement, we could keep track of the moves done by the robot up to the obstacle and the test compares them with those of the return journey.
+For simplicity we can make the robot follow a straight path up to the opposite wall, for example:
+<pre>
+...
+let us define <kc>String moves=""; String returnMoves=""; int count=0</kc>
+until the robot hits the wall: 
+	1) send to the robot the request to execute the command <kc>moveForward</kc>;
+	if the answer is 'true' <ks>append the symbol "w"</ks> to <kc>moves</kc>, and set count=count+1 continue to do 1); 
+	2) when the answer of the request becomes 'false', for count times send the robot the request to execute the command <kc>moveBackward</kc>
+	if the answer is 'true' <ks>append the symbol "b"</ks> to <kc>returnMoves</kc>.
+</pre>
+
+In this way, when the application terminates, the string <kc>moves</kc> should the number of w equals to the number of b in the string <kc>returnMoves</kc>,
+that can be easily checked with a TestUnit software:
+<pre>
+<kc>moves</kc>: <ks>"w*"</ks>     <kc><ks>*</ks> : repetion N times(N>=0)</kc>
+<kc>returnMoves</kc>: <ks>"b*"</ks>     <kc><ks>*</ks> : repetion N times(N>=0)</kc>
+number of w ?= number of b
+ </pre>
+
+</li> 
+</div>
+<div class="remark">
+To check that the application fulfills all the requirements, we could keep track of the moves done by the robot using the environment map built over time and previously described.
+<pre>
+
+	
+     X,X,X
+   X,<ks>d</ks>,1,1,0,0,0,0,0
+   X,<k>1</k>,1,1,0,0,0,0,0
+   X,<k>1</k>,1,1,0,0,0,0,0
+   X,<k>1</k>,<k>1</k>,<kc>X</kc>,0,0,0,0,0
+    ,0,0,0,0,0,0,0,0,S
+    
+	   
+</pre>
+
+Legenda (example):
+<ul>
+<li>0 -> not explored cell
+<li>1 -> explored cell
+<li><k>1</k> -> explored cell in the current path from den to the obstacle 
+<li><ks>d</ks> -> <ks>den</ks> cell
+<li><kc>X</kc> -> cell with obstacle
+<li>x -> wall cell automatically discovered (without hit them)
+<li>(S -> cell with sonar)
+</ul>
+
+</div>
+<h2>Project</h2> 
+<table style="width:98%">
+<tbody>	
+<tr>
+<td style="width:50%">
+<h3>Nature of the application component</h3>
+The <em>cautiousExplorerActors</em> application is a <k>Java program</k> made of different actors, for semplicity represented in the figure as an object with an internal thread.
+<br/>
+</td>
+<td>  
+<center><img src="img/cEA_projectArch0.png" alt="projectArch0" width="60%" ></center>
+</td>
+</tr>
+<tr>
+<td>
+<h3>IssWsHttpJavaSupport</h3>
+This library extends the WebSocketListener of the library OkHttp3. It is able to send / receive messages via http/ws and is able to send information to ActorBasicJava.java actors registered as abservers.
+</td>
+<td>
+The library is described in 
+<a href="wssupportAsActorJava.html#support" target="web"><em>wssupportAsActorJava.html#support</em></a> document
+</td>
+</tr>
+<tr>
+<td style="width:40%" >
+<h3>zooming into the cautiousExplorerActors</h3>
+<a href="../app/src/main/java/iss2021_CautiousExplorerActors/CautiousExplorerActor.java" target="code">
+CautiousExplorerActor.java</a>:<br/>
+the application logic designed and implemented as a follows:  
+ <br/><br/>
+<ol>
+<li>manages the pattern of the exploration path, the 2 seconds stop after the sonar detection and the return after a collision.</li>
+<li>is activated with an input each time the <ks>handleInput</ks> receives an input-message <tt>endmove</tt> 
+(sent by the <a href="../app/src/main/java/it/unibo/supports2021/IssWsHttpJavaSupport.java" target="code">
+<ks>IssWsHttpJavaSupport.java</ks></a>). </li>
+<li>for the first prototipe it uses <a href="../app/src/main/java/iss2021_CautiousExplorerActors/RobotMovesInfo.java" target="code">RobotMovesInfo.java</a>
+to create the map. </li>
+</ol>
+
+After a first prototipe, CautiousExplorerActor should be divided in 3 different actor, each with a single responsability: <br/><br/>
+<ul>
+<li>One with the "exploration" task</li>
+<li>One with the "return to the den" task</li>
+<li>One with the "map creation" task -> RobotMovesInfo as an actor</li>
+</ul> 
+
+</td>
+<td><center><img src="img/CEA.png" alt="CautiousExplorerActor" width="100%" ></center> 
+</td>
+</tr>
+</table>  
+</div>
+
+<h2>Testing</h2> 
+ 
+
+<h2>Deployment</h2> 
+The deployment consists in the commit of the application prototipe on a project named <ks>iss2021_CautiousExplorerActors</ks> of the MY GIT repository ( <k>CavallariRiccardo</k> ).
+<br/><br/>
+The final commit commit has done after <k>3</k> hours of work.
+ 
+<h2>Maintenance</h2> 
+ 
+<!-- USEFUL
+<table style="width:100%" border="1">
+<tr>
+<td style="width:50%">
+</td>
+<td></td>
+</tr>
+</table>
+ QUESTIONS:
+chiarisce cosa il committente intende con 'Optionally'  
+chiarisce cosa il committente intende con 'should remember' 
+chiarisce cosa il committente intende con 'mental map'
+definisce la user story in modo da comprendere TUTTI i requisiti (anche opzionali)
+discute se sia meglio avvalersi di HTTP o delle websocket e perchè
+discute se sia meglio usare il linguaggio di comando cril, aril (o altro) e perchè
+discute se sia meglio muovere il robot in modo random o in modo organizzato 
+discute se il ritorno alla den debba/possa avvenire senza ricalcare il percorso effettuato
+presenta ogni TestPlan collegandolo ad una user story e in modo 'concreto' (non come un insieme di intenti)
+propone diverse tipologie di scene/situazioni per il testing
+individua e propone (motivandola) una lista di priorità per il soddisfacimento dei requisiti 
+presenta una stima dei tempi di realizzazione 
+presenta un elenco delle risorse che sarebbe opportuno avere e/o procurarsi
+presenta una architettura di progetto
+presenta dettagli di progetto che permettono una precisa implementazione da parte di chi legge
+pone in evidenza le parti di funzionamento proattivo e quelle di funzionamento reattivo
+ECCEDE nelle dimensioni del file (al momento > 1600Kb)
+
+
+-->
+	      	
+<br/><br/> 	
+</div>  
+
+<div style="background-color:rgba(86, 56, 253, 0.9); color:white">
+By Riccardo Cavallari email: riccardo.cavallari4@studio.unibo.it     
+<img src="img/foto-personale.JPG" alt="personal photo" width="15%" height="15%">
+<br>GitHub: https://github.com/CavallariR/CavallariRiccardo.git
+</div> 
+</body>
+</html>
